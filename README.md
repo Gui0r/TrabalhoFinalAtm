@@ -17,7 +17,6 @@ Welcome to the ATM Simulator Software, a professional-grade tool designed to sim
 
 ```cpp
 #include <iostream>
-#include <set>
 using namespace std;
 
 const int NUM_NOTES = 4;
@@ -25,19 +24,17 @@ const int NUM_NOTES = 4;
 
 - **Libraries:**
   - `iostream` is included for input and output operations.
-  - `set` is included to ensure unique note values.
 - **Constants:**
-  - `NUM_NOTES` defines the number of different note denominations the ATM can handle.
+  - `NUM_NOTES` defines the number of different note denominations the ATM can handle. This is set to 4 in this example.
 
-### Function: countNotes
+### Function: `countNotes`
 
 ```cpp
-bool countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
+void countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
     for (int i = 0; i < NUM_NOTES; i++) {
         noteCount[i] = amount / noteValues[i];
         amount %= noteValues[i];
     }
-    return amount == 0; // Return true if the amount can be dispensed exactly
 }
 ```
 
@@ -46,51 +43,37 @@ bool countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int a
   - `noteCount`: Array to store the count of each note.
   - `noteValues`: Array containing the values of the notes.
   - `amount`: The amount to be withdrawn.
-- **Returns:** `true` if the amount can be dispensed exactly with the available notes; `false` otherwise.
 - **Details:** Iterates through each note denomination, calculating how many notes of each type are needed and updating the remaining amount.
 
-### Function: registerNotes
+### Function: `registerNotes`
 
 ```cpp
 void registerNotes(int noteValues[NUM_NOTES]) {
-    cout << "=================================\n";
-    cout << "Register the values of the notes\n";
-    cout << "=================================\n";
-    set<int> uniqueValues; // To ensure note values are unique
+    cout << "Register the values of the notes:\n";
     for (int i = 0; i < NUM_NOTES; i++) {
-        int noteValue;
         while (true) {
             cout << "Enter the value of note " << (i + 1) << ": ";
-            cin >> noteValue;
-            if (noteValue <= 0) {
-                cout << "Error: Note value must be a positive integer. Try again.\n";
-            } else if (uniqueValues.count(noteValue)) {
-                cout << "Error: Note value must be unique. Try again.\n";
-            } else {
-                noteValues[i] = noteValue;
-                uniqueValues.insert(noteValue);
-                break;
-            }
+            cin >> noteValues[i];
+            if (noteValues[i] > 0) break;
+            cout << "Note value must be a positive integer. Try again.\n";
         }
     }
-    cout << "=================================\n";
 }
 ```
 
 - **Purpose:** Allows users to register unique values for each note denomination.
 - **Parameters:** 
   - `noteValues`: Array to store the registered note values.
-- **Details:** Ensures each note value is a positive integer and that all note values are unique by using a `set`.
+- **Details:** Prompts the user to enter positive integer values for each note. If the entered value is not positive, an error message is displayed and the user is prompted again.
 
-### Function: simulateOutput
+### Function: `simulateOutput`
 
 ```cpp
 void simulateOutput(const int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES]) {
-    cout << "=================================\n";
+    cout << "Output:\n";
     for (int i = 0; i < NUM_NOTES; i++) {
         cout << "Number of " << noteValues[i] << " notes: " << noteCount[i] << "\n";
     }
-    cout << "=================================\n";
 }
 ```
 
@@ -105,43 +88,36 @@ void simulateOutput(const int noteCount[NUM_NOTES], const int noteValues[NUM_NOT
 ```cpp
 int main() {
     int amount = 0;
-    int exitSystem = 0;
+    bool exitSystem = false;
 
     int noteCount[NUM_NOTES] = {0};
     int noteValues[NUM_NOTES] = {0};
 
     // Register note values
-    registerNotes(noteValues); // Register values of the notes
+    registerNotes(noteValues);
 
     // Main loop of the simulator
-    while (exitSystem != 1) {
+    while (!exitSystem) {
         // Read the amount to be withdrawn from the ATM
-        cout << "\n=================================\n";
-        cout << "Enter the amount to be withdrawn: ";
+        cout << "\nEnter the amount to be withdrawn (9999 to exit): ";
         cin >> amount;
 
         if (amount == 9999) {
-            exitSystem = 1;
-            cout << "=================================\n";
-            cout << "SYSTEM INTERRUPTED - CODE 9999\n";
-            cout << "=================================\n";
+            exitSystem = true;
+            cout << "System interrupted - Code 9999\n";
             break;
         }
 
         if (amount <= 0) {
-            cout << "Error: Amount to be withdrawn must be a positive integer. Try again.\n";
+            cout << "Amount to be withdrawn must be a positive integer. Try again.\n";
             continue;
         }
 
         // Execute functions to count the number of notes by their value
-        if (countNotes(noteCount, noteValues, amount)) { // Count notes by value
-            simulateOutput(noteCount, noteValues); // Simulate output of notes
-        } else {
-            cout << "Error: The amount cannot be dispensed with the available notes. Try a different amount.\n";
-        }
+        countNotes(noteCount, noteValues, amount);
+        simulateOutput(noteCount, noteValues);
     }
 
-    // End of main
     return 0;
 }
 ```
@@ -149,8 +125,8 @@ int main() {
 - **Purpose:** Controls the flow of the program.
 - **Initialization:**
   - `amount` stores the amount to be withdrawn.
-  - `exitSystem` flag for exiting the main loop.
-  - `noteCount` and `noteValues` arrays for storing note counts and values.
+  - `exitSystem` is a boolean flag for exiting the main loop.
+  - `noteCount` and `noteValues` are arrays for storing note counts and values.
 - **Process:**
   - Calls `registerNotes` to initialize note values.
   - Enters a loop to process withdrawal requests.
