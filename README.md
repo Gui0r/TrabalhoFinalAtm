@@ -53,10 +53,11 @@ void registerNotes(int noteValues[NUM_NOTES]) {
         while (true) {
             cout << "Enter the value of note " << (i + 1) << ": ";
             cin >> noteValues[i];
-            if (noteValues[i] > 0) break;
+            if (noteValues[i] > 0){
             cout << "Note value must be a positive integer. Try again.\n";
-        }
+      }
     }
+  }
 }
 ```
 
