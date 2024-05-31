@@ -6,7 +6,6 @@ Welcome to the ATM Simulator Software, a professional-grade tool designed to sim
 
 ## Features
 
-- **Customizable Note Denominations:** Allows users to register unique note values.
 - **Simulated Withdrawals:** Accurately calculates and displays the number of each note dispensed for a given amount.
 - **User-Friendly Interface:** Clear prompts and error messages ensure a smooth user experience.
 - **Robust Error Handling:** Validates inputs and ensures withdrawals can be completed with the available notes.
