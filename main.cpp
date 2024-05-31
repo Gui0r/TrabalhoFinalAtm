@@ -2,68 +2,68 @@
 #include <string>
 using namespace std;
 
-const int NUM_NOTAS = 4;
+const int NUM_NOTES = 4;
 
-// Função de separação das notas por valor
-void contaNotas(int qtdNotas[NUM_NOTAS], const int valNotas[NUM_NOTAS], int saque) {
-    for (int i = 0; i < NUM_NOTAS; i++) {
-        qtdNotas[i] = saque / valNotas[i];
-        saque %= valNotas[i];
+// Function to count the number of notes by value
+void countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
+    for (int i = 0; i < NUM_NOTES; i++) {
+        noteCount[i] = amount / noteValues[i];
+        amount %= noteValues[i];
     }
 }
 
-// Função para registrar os valores das notas
-void cadastraNotas(int valNotas[NUM_NOTAS]) {
+// Function to register the note values
+void registerNotes(int noteValues[NUM_NOTES]) {
     cout << "=================================\n";
-    cout << "Registro dos valores das notas\n";
+    cout << "Register the values of the notes\n";
     cout << "=================================\n";
-    for (int i = 0; i < NUM_NOTAS; i++) {
-        cout << "Digite o valor da nota: ";
-        cin >> valNotas[i];
-    }
-    cout << "=================================\n";
-}
-
-// Função para simular a saída das notas
-void simulaSaida(const int qtdNotas[NUM_NOTAS], const int valNotas[NUM_NOTAS]) {
-    cout << "=================================\n";
-    for (int i = 0; i < NUM_NOTAS; i++) {
-        cout << "Qtd. Notas de " << valNotas[i] << ": " << qtdNotas[i] << "\n";
+    for (int i = 0; i < NUM_NOTES; i++) {
+        cout << "Enter the value of the note: ";
+        cin >> noteValues[i];
     }
     cout << "=================================\n";
 }
 
-// Fluxo principal do código
+// Function to simulate the output of notes
+void simulateOutput(const int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES]) {
+    cout << "=================================\n";
+    for (int i = 0; i < NUM_NOTES; i++) {
+        cout << "Number of " << noteValues[i] << " notes: " << noteCount[i] << "\n";
+    }
+    cout << "=================================\n";
+}
+
+// Main function
 int main() {
-    int saque = 0;
+    int amount = 0;
     int exitSystem = 0;
 
-    int qtdNotas[NUM_NOTAS] = {0};
-    int valNotas[NUM_NOTAS] = {0};
+    int noteCount[NUM_NOTES] = {0};
+    int noteValues[NUM_NOTES] = {0};
 
-    // Inicializa notas
-    cadastraNotas(valNotas); // Cadastra valores das notas
+    // Register note values
+    registerNotes(noteValues); // Register values of the notes
 
-    // Laço principal do simulador
+    // Main loop of the simulator
     while (exitSystem != 1) {
-        // Lê valor a ser sacado do Caixa Eletrônico
+        // Read the amount to be withdrawn from the ATM
         cout << "\n=================================\n";
-        cout << "Digite o valor a ser sacado: ";
-        cin >> saque;
+        cout << "Enter the amount to be withdrawn: ";
+        cin >> amount;
 
-        if (saque == 9999) {
+        if (amount == 9999) {
             exitSystem = 1;
             cout << "=================================\n";
-            cout << "SISTEMA INTERROMPIDO - COD.9999\n";
+            cout << "SYSTEM INTERRUPTED - CODE 9999\n";
             cout << "=================================\n";
             break;
         }
 
-        // Executa funções para separar quantidade de notas por seu valor
-        contaNotas(qtdNotas, valNotas, saque); // Conta notas por valor
-        simulaSaida(qtdNotas, valNotas); // Simula saída de notas
+        // Execute functions to count the number of notes by their value
+        countNotes(noteCount, noteValues, amount); // Count notes by value
+        simulateOutput(noteCount, noteValues); // Simulate output of notes
     }
 
-    // Final do main
+    // End of main
     return 0;
 }
