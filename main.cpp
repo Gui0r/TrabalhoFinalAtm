@@ -1,15 +1,16 @@
 #include <iostream>
-#include <string>
+#include <set>
 using namespace std;
 
 const int NUM_NOTES = 4;
 
 // Function to count the number of notes by value
-void countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
+bool countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
     for (int i = 0; i < NUM_NOTES; i++) {
         noteCount[i] = amount / noteValues[i];
         amount %= noteValues[i];
     }
+    return amount == 0; // Return true if the amount can be dispensed exactly
 }
 
 // Function to register the note values
@@ -17,9 +18,22 @@ void registerNotes(int noteValues[NUM_NOTES]) {
     cout << "=================================\n";
     cout << "Register the values of the notes\n";
     cout << "=================================\n";
+    set<int> uniqueValues; // To ensure note values are unique
     for (int i = 0; i < NUM_NOTES; i++) {
-        cout << "Enter the value of the note: ";
-        cin >> noteValues[i];
+        int noteValue;
+        while (true) {
+            cout << "Enter the value of note " << (i + 1) << ": ";
+            cin >> noteValue;
+            if (noteValue <= 0) {
+                cout << "Error: Note value must be a positive integer. Try again.\n";
+            } else if (uniqueValues.count(noteValue)) {
+                cout << "Error: Note value must be unique. Try again.\n";
+            } else {
+                noteValues[i] = noteValue;
+                uniqueValues.insert(noteValue);
+                break;
+            }
+        }
     }
     cout << "=================================\n";
 }
@@ -59,9 +73,17 @@ int main() {
             break;
         }
 
+        if (amount <= 0) {
+            cout << "Error: Amount to be withdrawn must be a positive integer. Try again.\n";
+            continue;
+        }
+
         // Execute functions to count the number of notes by their value
-        countNotes(noteCount, noteValues, amount); // Count notes by value
-        simulateOutput(noteCount, noteValues); // Simulate output of notes
+        if (countNotes(noteCount, noteValues, amount)) { // Count notes by value
+            simulateOutput(noteCount, noteValues); // Simulate output of notes
+        } else {
+            cout << "Error: The amount cannot be dispensed with the available notes. Try a different amount.\n";
+        }
     }
 
     // End of main
