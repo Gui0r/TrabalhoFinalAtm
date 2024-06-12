@@ -1,36 +1,34 @@
 #include <iostream>
 using namespace std;
 
-const int NUM_NOTES = 4;
+const int NUM_NOTES = 6;
+const int NOTE_VALUES[NUM_NOTES] = {100, 50, 20, 10, 5, 2};
 
 // Function to count the number of notes by value
-void countNotes(int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES], int amount) {
+void countNotes(int noteCount[NUM_NOTES], int amount) {
     for (int i = 0; i < NUM_NOTES; i++) {
-        noteCount[i] = amount / noteValues[i];
-        amount %= noteValues[i];
+        noteCount[i] = amount / NOTE_VALUES[i];
+        amount %= NOTE_VALUES[i];
     }
-}
-
-// Function to register the note values
-void registerNotes(int noteValues[NUM_NOTES]) {
-    cout << "Register the values of the notes:\n";
-    for (int i = 0; i < NUM_NOTES; i++) {
-        while (true) {
-            cout << "Enter the value of note " << (i + 1) << ": ";
-            cin >> noteValues[i];
-            if (noteValues[i] > 0){
-            cout << "Note value must be a positive integer. Try again.\n";
-      }
-    }
-  }
 }
 
 // Function to simulate the output of notes
-void simulateOutput(const int noteCount[NUM_NOTES], const int noteValues[NUM_NOTES]) {
+void simulateOutput(const int noteCount[NUM_NOTES]) {
     cout << "Output:\n";
     for (int i = 0; i < NUM_NOTES; i++) {
-        cout << "Number of " << noteValues[i] << " notes: " << noteCount[i] << "\n";
+        cout << "Number of R$" << NOTE_VALUES[i] << " notes: " << noteCount[i] << "\n";
     }
+}
+
+// Function to display menu options
+int displayMenu() {
+    int choice;
+    cout << "\n===== Menu =====\n";
+    cout << "1. Withdraw Amount\n";
+    cout << "2. Exit\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+    return choice;
 }
 
 // Main function
@@ -39,32 +37,34 @@ int main() {
     bool exitSystem = false;
 
     int noteCount[NUM_NOTES] = {0};
-    int noteValues[NUM_NOTES] = {0};
 
-    // Register note values
-    registerNotes(noteValues);
+    do {
+        int choice = displayMenu();
 
-    // Main loop of the simulator
-    while (!exitSystem) {
-        // Read the amount to be withdrawn from the ATM
-        cout << "\nEnter the amount to be withdrawn (9999 to exit): ";
-        cin >> amount;
+        switch (choice) {
+            case 1:
+                cout << "\nEnter the amount to be withdrawn (9999 to exit): ";
+                cin >> amount;
 
-        if (amount == 9999) {
-            exitSystem = true;
-            cout << "System interrupted - Code 9999\n";
-            break;
+                if (amount == 9999) {
+                    exitSystem = true;
+                    cout << "System interrupted - Code 9999\n";
+                } else if (amount <= 0) {
+                    cout << "Amount to be withdrawn must be a positive integer. Try again.\n";
+                } else {
+                    countNotes(noteCount, amount);
+                    simulateOutput(noteCount);
+                }
+                break;
+            case 2:
+                exitSystem = true;
+                cout << "Exiting the program...\n";
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+                break;
         }
-
-        if (amount <= 0) {
-            cout << "Amount to be withdrawn must be a positive integer. Try again.\n";
-            continue;
-        }
-
-        // Execute functions to count the number of notes by their value
-        countNotes(noteCount, noteValues, amount);
-        simulateOutput(noteCount, noteValues);
-    }
+    } while (!exitSystem);
 
     return 0;
 }
