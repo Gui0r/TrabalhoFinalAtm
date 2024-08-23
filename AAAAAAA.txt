@@ -1,0 +1,12 @@
+sobre a lista de requisitos
+o primeiro requisito levantado e uma navegação e precisa e segura do robô. Dentro do nosso ambiente de trabalho o robô precisara de um sistema preciso para não ocorrer 
+nenhum problema tipo o robô levando os produtos de um cliente para o lugar errado, não ocorrer acidentes com os robôs colidindo com outros robôs e produtos em volta
+
+o segundo requisito será uma identificação precisa do produto. O robô deve identificar o pedido e saber qual item e quantidade deve coletar para não ocorrerem erros como robôs entregando itens errados. Dentro do ambiente de trabalho. O robô vai usar de tecnologias como a identificação de código de barras para identificação do produto precisa
+
+o terceiro requisito é uma gestão segura dos produtos do cliente. Existem algum produtos que são mais sensíveis que os outros e demandam um cuidado maior. Ninguém vai querer
+seu produto chegando quebrado ou com danos. Por isso iremos usar de um braço robótico no nosso robô para precisamente pegar os produtos e os leva-los ao seu destino garantindo 
+segurança 
+
+e o quarto e ultimo requisito seria uma integração com o nosso armazém e banco de dados da empresa. Como terão vários robôs trabalhando é essencial o robô saber quais produtos 
+estão no estoque e quais não estão, Para não ocorrer nenhum problema de robôs não roubando produtos dos outros, Todos os produtos terão uma identificação de vendido e para venda
